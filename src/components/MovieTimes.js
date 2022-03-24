@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import axios from "axios"
 
 function MovieTimes() {
@@ -28,17 +28,21 @@ function MovieTimes() {
                 {days.map(day => {
                     const { showtimes: showTimes, id, weekday, date } = day
                     return (
-                            <div key={id} className="movie-times__day-times">
-                                <p className="movie-times__day">{weekday} - {date}</p>
-                                <div className="movie-times__hours">
-                                    {showTimes.map((time) => {
-                                        const { id, name } = time
-                                        return (
-                                                <button key={id} className="movie-times__hour">{name}</button>
-                                        )
-                                    })}
-                                </div>
+                        <div key={id} className="movie-times__day-times">
+                            <p className="movie-times__day">{weekday} - {date}</p>
+                            <div className="movie-times__hours">
+                                {showTimes.map((time) => {
+                                    const { id, name } = time
+                                    return (
+                                        <button key={id} className="movie-times__hour">
+                                            <Link to={`/assentos/${id}`}>
+                                                {name}
+                                            </Link>
+                                        </button>
+                                    )
+                                })}
                             </div>
+                        </div>
                     )
                 })}
             </div>
