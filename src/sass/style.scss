@@ -70,7 +70,7 @@ button {
         font-size: $font-size-2;
         color: $color-secondary;
         font-weight: 900;
-        letter-spacing:2px;
+        letter-spacing: 2px;
     }
 
     box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
@@ -152,6 +152,10 @@ button {
     .movie-times {
         @include flex(flex-start, flex-start, column);
 
+        &__days {
+            margin-bottom: 20px;
+        }
+
         &__day-times {
             margin-bottom: 20px;
         }
@@ -178,12 +182,18 @@ button {
 
 .movie-seats-screen {
     .movie-seats {
+        @include flex(center, center);
+
         &__seats-options {
             @include flex(center, center);
             gap: 19px 7px;
+            margin: 0 auto;
             flex-wrap: wrap;
+            align-self: center;
 
-            margin-bottom: 20px;
+            width: 330px;
+
+            margin-bottom: 30px;
         }
 
         &__seat {
@@ -249,8 +259,8 @@ button {
             }
         }
 
-        &__confirm-button{
-            margin-bottom: 30px;;
+        &__confirm-button {
+            margin-bottom: 30px;
         }
     }
 }

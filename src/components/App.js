@@ -9,16 +9,15 @@ import Success from "./Success.js"
 function App() {
     return (
         <>
-            {/* <BrowserRouter> */}
-                {/* <Routes> */}
-                    <Header />
-                    <MovieSeats />
-                    {/* <Route path="/" element={<MainScreen />} />
-                    <Route path="/sessoes" element={<MovieTimes />} />
-                    <Route path="/assentos" element={<MovieSeats />} />
-                    <Route path="/" element={<Success />} /> */}
-                {/* </Routes> */}
-            {/* </BrowserRouter> */}
+            <BrowserRouter>
+            <Header />
+            <Routes>
+            <Route path="/" element={<MainScreen />} />
+            <Route path="/sessoes/:movieID" element={<MovieTimes />} />
+            <Route path="/assentos" element={<MovieSeats />} />
+            <Route path="/" element={<Success />} />
+            </Routes>
+            </BrowserRouter>
         </>
     )
 }

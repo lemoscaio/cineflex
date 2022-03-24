@@ -205,6 +205,66 @@ function MovieSeats() {
                         01
                     </p>
                 </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
+                <div className="movie-seats__seat">
+                    <p className="movie-seats__seat-number">
+                        01
+                    </p>
+                </div>
             </div>
             <div className="movie-seats__labels">
                 <div className="movie-seats__label">
