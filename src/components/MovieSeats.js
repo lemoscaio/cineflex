@@ -1,5 +1,5 @@
 import { useState, useEffect } from "react"
-import { useParams } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import axios from "axios"
 import movieSeatsJSON from "./mockMovieSeats.json"
 
@@ -35,15 +35,18 @@ function MovieSeats() {
     }
 
     function setSelectedSeatCSS(seat) {
-        console.log(seat.id)
-        console.log(seat.isSelected)
+        // console.log(seat.id)
+        // console.log(seat.isSelected)
         return seat.isSelected ? "selected-seat" : ""
     }
 
-    // TODO treat cases - seat already selected ////// where to store selected seats
+    // TODO where to store selected seats
     function selectSeat(id) {
         const newSeats = movieSeats.seats.map(seat => {
-            return (id === seat.id) ? { ...seat, isSelected: !seat.isSelected } : seat
+            if (id === seat.id && !seat.isAvailable) {
+                alert("Este assento não está disponível")
+            }
+            return (id === seat.id && seat.isAvailable) ? { ...seat, isSelected: !seat.isSelected } : seat
         })
         movieSeats.seats = newSeats
         console.log(movieSeats)
@@ -103,7 +106,7 @@ function MovieSeats() {
                 </label>
                 <input type="text" name="buyer-tax-number" placeholder="Digite seu nome..." className="movie-seats__buyer-name" />
             </form>
-            <button className="movie-seats__confirm-button button-1">Reservar assento(s)</button>
+            <button className="movie-seats__confirm-button button-1"><Link to={`/sucesso`}>Reservar assento(s)</Link></button>
             <footer className="movie-summary">
                 <article className="movie-summary__poster">
                     <img className="movie-summary__poster-image" src={movieSeats.movie.posterURL} alt={movieSeats.movie.title} />
