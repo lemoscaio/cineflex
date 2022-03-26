@@ -10,13 +10,13 @@ function App() {
     return (
         <>
             <BrowserRouter>
-            <Header />
-            <Routes>
-            <Route path="/" element={<MainScreen />} />
-            <Route path="/sessoes/:movieID" element={<MovieTimes />} />
-            <Route path="/assentos/:sectionID" element={<MovieSeats />} />
-            <Route path="/sucesso" element={<Success />} />
-            </Routes>
+                <Header />
+                <Routes>
+                    <Route path="/" element={<MainScreen />} />
+                    <Route path="/sessoes/:movieID" element={<MovieTimes />} />
+                    <Route path="/assentos/:sectionID" element={<MovieSeats/>} />
+                    <Route path="/sucesso" element={<Success/>} />
+                </Routes>
             </BrowserRouter>
         </>
     )

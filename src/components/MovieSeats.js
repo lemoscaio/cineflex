@@ -1,17 +1,26 @@
 import { useState, useEffect } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import axios from "axios"
-import movieSeatsJSON from "./mockMovieSeats.json"
 
 function MovieSeats() {
 
     const { sectionID } = useParams()
+    const navigate = useNavigate()
+
     const URL_GET_MOVIE_SEATS = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sectionID}/seats`
+
+    const URL_POST_ORDER = `https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`
+
     const [movieSeats, setMovieSeats] = useState({})
 
-    // TODO remove square link animation when clicking on a seat
+    const initialOrderInfo = {
+        name: "",
+        cpf: ""
+    }
 
-    // TODO remove comment after testing everything
+    const [orderInfo, setOrderInfo] = useState(initialOrderInfo)
+
+    // TODO remove square link animation when clicking in a seat only on mobile
 
     useEffect(() => {
         const promise = axios.get(URL_GET_MOVIE_SEATS)
@@ -24,23 +33,24 @@ function MovieSeats() {
             }))
     }, [])
 
-    // TODO remove this hardcoding after testing everything
-
-    // useEffect(() => {
-    //     setMovieSeats(movieSeatsJSON)
-    // }, [])
+    useEffect(() => {
+        if (Object.keys(movieSeats).length > 0) {
+            const selectedSeats = movieSeats.seats.filter(seat => {
+                return seat.isSelected
+            })
+            const selectedSeatsIDs = selectedSeats.map(seat => seat.id)
+            setOrderInfo({ ...orderInfo, ids: selectedSeatsIDs })
+        }
+    }, [movieSeats])
 
     function setSeatAvailabilityCSS({ isAvailable }) {
         return isAvailable ? "" : "unavailable-seat"
     }
 
     function setSelectedSeatCSS(seat) {
-        // console.log(seat.id)
-        // console.log(seat.isSelected)
         return seat.isSelected ? "selected-seat" : ""
     }
 
-    // TODO where to store selected seats
     function selectSeat(id) {
         const newSeats = movieSeats.seats.map(seat => {
             if (id === seat.id && !seat.isAvailable) {
@@ -49,8 +59,26 @@ function MovieSeats() {
             return (id === seat.id && seat.isAvailable) ? { ...seat, isSelected: !seat.isSelected } : seat
         })
         movieSeats.seats = newSeats
-        console.log(movieSeats)
-        setMovieSeats({...movieSeats})
+        setMovieSeats({ ...movieSeats })
+    }
+
+    function inputHandler(event) {
+        if (event.target.name === "buyer-name") {
+            setOrderInfo({ ...orderInfo, name: event.target.value })
+        }
+        if (event.target.name === "buyer-tax-number") {
+            setOrderInfo({ ...orderInfo, cpf: event.target.value })
+        }
+    }
+
+    function handleSubmit(event) {
+        event.preventDefault()
+        const promise = axios.post(URL_POST_ORDER, orderInfo)
+        promise.then((response) => {
+            navigate("/sucesso", { state: { orderInfo, movieSeats } })
+            console.log(response)
+        })
+        promise.catch(err => console.log(err))
     }
 
     return Object.keys(movieSeats).length > 0 ? (
@@ -62,9 +90,9 @@ function MovieSeats() {
                     const selectedCSS = setSelectedSeatCSS(seat)
                     return (
                         <div
-                            key={id} onClick={() => selectSeat(id)} 
+                            key={id} onClick={() => selectSeat(id)}
                             className={`movie-seats__seat ${setSeatAvailabilityCSS(seat)} ${selectedCSS}`}
-                            >
+                        >
                             <p className="movie-seats__seat-number">
                                 {name}
                             </p>
@@ -95,18 +123,17 @@ function MovieSeats() {
                     </p>
                 </div>
             </div>
-            <form
-                className="movie-seats__buyer-info">
+            <form onSubmit={handleSubmit} className="movie-seats__buyer-info">
                 <label htmlFor="buyer-name">
                     Nome do comprador:
                 </label>
-                <input type="text" name="buyer-name" placeholder="Digite seu nome..." className="movie-seats__buyer-name" />
+                <input onChange={event => inputHandler(event)} type="text" value={orderInfo.name} name="buyer-name" placeholder="Digite seu nome..." className="movie-seats__buyer-name" />
                 <label htmlFor="buyer-tax-number">
                     CPF do comprador:
                 </label>
-                <input type="text" name="buyer-tax-number" placeholder="Digite seu nome..." className="movie-seats__buyer-name" />
+                <input onChange={event => inputHandler(event)} type="text" value={orderInfo.cpf} name="buyer-tax-number" placeholder="Digite seu CPF (sem pontuação)..." className="movie-seats__buyer-name" />
+                <button type="submit" className="movie-seats__confirm-button button-1">Reservar assento(s)</button>
             </form>
-            <button className="movie-seats__confirm-button button-1"><Link to={`/sucesso`}>Reservar assento(s)</Link></button>
             <footer className="movie-summary">
                 <article className="movie-summary__poster">
                     <img className="movie-summary__poster-image" src={movieSeats.movie.posterURL} alt={movieSeats.movie.title} />
