@@ -1,19 +1,16 @@
-import { useLocation } from "react-router-dom"
+import { useLocation, Link } from "react-router-dom"
 
 function Success() {
     const location = useLocation()
 
-    const { movieSeats, orderInfo, movieSeats: { day, movie, name: time }, orderInfo: { cpf, ids, name } } = location.state
-    console.log(movieSeats)
-    console.log(orderInfo)
-    console.log(ids)
+    const { movieSeats: { day, movie, name: time }, orderInfo: { cpf, ids, name } } = location.state
 
-    function changeDisplayCPF(){
+    function changeDisplayCPF() {
         let displayCPF = cpf.split("")
-        newCPF.splice(9,0,"-").splice(6,0,".").splice(3,0,".")
-        newCPF.splice(6,0,".")
-        newCPF.splice(3,0,".")
-        return displayCPF
+        displayCPF.splice(9, 0, "-").splice(6, 0, ".").splice(3, 0, ".")
+        displayCPF.splice(6, 0, ".")
+        displayCPF.splice(3, 0, ".")
+        return displayCPF ? displayCPF : ""
     }
 
     return (
@@ -37,7 +34,7 @@ function Success() {
                     <p className="order-summary__movie-info">CPF: {changeDisplayCPF()}</p>
                 </div>
             </div>
-            <button className="movie-seats__confirm-button button-1">Voltar para Home</button>
+            <button className="movie-seats__confirm-button button-1"><Link to="/">Voltar para Home</Link></button>
         </main>
     )
 }
