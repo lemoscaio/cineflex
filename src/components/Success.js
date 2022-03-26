@@ -1,9 +1,16 @@
 import { useLocation, Link } from "react-router-dom"
+import { useEffect } from "react"
 
-function Success() {
+function Success({ setScreenCallback }) {
     const location = useLocation()
 
     const { movieSeats: { day, movie, name: time }, orderInfo: { cpf, ids, name } } = location.state
+
+    useEffect(() => {
+        setScreenCallback(4)
+    })
+
+    // TODO correct seat number
 
     function changeDisplayCPF() {
         let displayCPF = cpf.split("")

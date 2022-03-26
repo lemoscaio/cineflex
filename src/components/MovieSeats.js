@@ -2,7 +2,7 @@ import { useState, useEffect } from "react"
 import { useParams, Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
-function MovieSeats() {
+function MovieSeats({setScreenCallback}) {
 
     const { sectionID } = useParams()
     const navigate = useNavigate()
@@ -24,6 +24,7 @@ function MovieSeats() {
 
     useEffect(() => {
         const promise = axios.get(URL_GET_MOVIE_SEATS)
+        setScreenCallback(3)
         promise.then((response) => {
             const { data } = response
             setMovieSeats(data)
@@ -83,6 +84,7 @@ function MovieSeats() {
 
     return Object.keys(movieSeats).length > 0 ? (
         <main className=" container movie-seats-screen movie-seats">
+            {/* <button onClick={() => navigate(-1)} className="go-back-button button-2"><ion-icon name="chevron-back-circle"></ion-icon></button> */}
             <h2 className="movie-seats-screen__title default-title">Selecione o(s) assento(s)</h2>
             <div className="movie-seats__seats-options">
                 {movieSeats.seats.map(seat => {

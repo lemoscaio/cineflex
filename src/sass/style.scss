@@ -6,50 +6,6 @@
 
 // general rules
 
-.container {
-    @include flex(center, flex-start, column);
-
-    margin-bottom: 50px;
-    padding: 0 30px;
-}
-
-.default-title {
-    font-size: $font-size-4;
-    color: $color-text-main;
-    padding: 40px 0 30px;
-
-    align-self: center;
-}
-
-.button-1 {
-    background-color: $color-secondary;
-
-    align-self: center;
-
-    color: white;
-    font-size: $font-size-5;
-
-    padding: (42px - 18px)/2 40px;
-    margin-top: 55px;
-    border: none;
-
-    @extend %default-border-radius;
-}
-
-.selected-seat {
-    background-color: $color-selected !important;
-    @extend %default-border;
-    border-color: #1aae9e !important;
-}
-
-.unavailable-seat {
-    background-color: $color-unavailable !important;
-    @extend %default-border;
-    border-color: #f7c52b !important;
-}
-
-// header
-
 body,
 button {
     font-family: $font-main;
@@ -59,238 +15,314 @@ button {
     cursor: pointer;
 }
 
+.container {
+  @include flex(center, flex-start, column);
+
+  margin-bottom: 50px;
+  padding: 67px 30px 0;
+}
+
+// modifiers
+
+.selected-seat {
+  background-color: $color-selected !important;
+  @extend %default-border;
+  border-color: #1aae9e !important;
+}
+
+.unavailable-seat {
+  background-color: $color-unavailable !important;
+  @extend %default-border;
+  border-color: #f7c52b !important;
+}
+
+// header
+
 .header {
-    @include flex(center, center);
+  @include flex(center, center);
 
-    background-color: $color-main;
+  background-color: $color-main;
 
-    height: 67px;
+  height: 67px;
 
-    &__title {
-        font-size: $font-size-2;
-        color: $color-secondary;
-        font-weight: 900;
-        letter-spacing: 2px;
-    }
+  position: fixed;
+  left: 0;
+  right: 0;
 
-    box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
+  &__title {
+    font-size: $font-size-2;
+    color: $color-secondary;
+    font-weight: 900;
+    letter-spacing: 2px;
+  }
+
+  box-shadow: 0px 2px 3px rgba(0, 0, 0, 0.2);
 }
 
 // main page
 
 .main-screen {
-    &__movies {
-        @include flex(center);
-        flex-wrap: wrap;
-        gap: 30px;
+  &__movies {
+    @include flex(center);
+    flex-wrap: wrap;
+    gap: 30px;
 
-        width: 100%;
+    width: 100%;
+  }
+
+  &__movie {
+    @include flex(center, center);
+    max-width: 40%;
+    @extend %default-border-radius;
+    background-color: white;
+    @extend %default-shadow;
+
+    cursor: pointer;
+  }
+
+  &__movie-image {
+    width: 100%;
+    height: 1000%;
+    object-fit: cover;
+    padding: 10px;
+
+    @include desktop-only {
+      max-width: 170px;
     }
-
-    &__movie {
-        @include flex(center, center);
-        max-width: 40%;
-        @extend %default-border-radius;
-        background-color: white;
-        @extend %default-shadow;
-
-        cursor: pointer;
-    }
-
-    &__movie-image {
-        width: 100%;
-        height: 1000%;
-        object-fit: cover;
-        padding: 10px;
-    }
+  }
 }
 
 .movie-times-screen,
 .movie-seats-screen {
-    margin-bottom: 117px;
+  margin-bottom: 117px;
 
-    .movie-summary {
-        background-color: $color-main;
-        height: 117px;
+  .movie-summary {
+    background-color: $color-main;
+    height: 117px;
 
-        position: fixed;
-        bottom: 0;
-        left: 0;
-        right: 0;
+    position: fixed;
+    bottom: 0;
+    left: 0;
+    right: 0;
 
-        padding: 10px;
+    padding: 10px;
 
-        border-top: 2px solid $color-border;
+    border-top: 2px solid $color-border;
 
-        @include flex(flex-start, center);
+    @include flex(flex-start, center);
 
-        &__poster {
-            background-color: white;
+    &__poster {
+      background-color: white;
 
-            height: 100%;
+      height: 100%;
 
-            margin-right: 15px;
-        }
-
-        &__poster-image {
-            height: 100%;
-
-            padding: 8px;
-
-            object-fit: cover;
-
-            @extend %default-border-radius, %default-shadow;
-        }
-
-        &__info {
-            font-size: $font-size-4;
-        }
+      margin-right: 15px;
     }
+
+    &__poster-image {
+      height: 100%;
+
+      padding: 8px;
+
+      object-fit: cover;
+
+      @extend %default-border-radius, %default-shadow;
+    }
+
+    &__info {
+      font-size: $font-size-4;
+    }
+  }
 }
 
 .movie-times-screen {
-    .movie-times {
-        @include flex(flex-start, flex-start, column);
+  .movie-times {
+    @include flex(flex-start, flex-start, column);
 
-        &__days {
-            margin-bottom: 20px;
-        }
-
-        &__day-times {
-            margin-bottom: 20px;
-        }
-
-        &__day {
-            margin-bottom: 20px;
-            font-size: $font-size-5;
-        }
-
-        &__hours {
-            @include flex();
-            gap: 10px;
-        }
-
-        &__hour {
-            background-color: $color-secondary;
-            border: none;
-            padding: (43px - 18px)/2 15px;
-            color: white;
-            @extend %default-border-radius;
-        }
+    &__days {
+      margin-bottom: 20px;
     }
+
+    &__day-times {
+      margin-bottom: 20px;
+    }
+
+    &__day {
+      margin-bottom: 20px;
+      font-size: $font-size-5;
+    }
+
+    &__hours {
+      @include flex();
+      gap: 10px;
+    }
+
+    &__hour {
+      background-color: $color-secondary;
+      border: none;
+      padding: (43px - 18px)/2 15px;
+      color: white;
+      @extend %default-border-radius;
+    }
+  }
 }
 
 .movie-seats-screen {
-    .movie-seats {
-        @include flex(center, center);
+  .movie-seats {
+    @include flex(center, center);
 
-        &__seats-options {
-            @include flex(center, center);
-            gap: 19px 7px;
-            margin: 0 auto;
-            flex-wrap: wrap;
-            align-self: center;
+    &__seats-options {
+      @include flex(center, center);
+      gap: 19px 7px;
+      margin: 0 auto;
+      flex-wrap: wrap;
+      align-self: center;
 
-            width: 330px;
+      width: 330px;
 
-            margin-bottom: 30px;
-        }
-
-        &__seat {
-            @include flex(center, center);
-
-            background-color: $color-available; //TEMPORARY
-
-            width: 26px;
-            height: 26px;
-
-            padding: 10px;
-
-            border-radius: 50%;
-
-            @extend %default-border;
-
-            cursor: pointer;
-        }
-
-        &__seat-number {
-            font-size: $font-size-8;
-        }
-
-        &__labels {
-            @include flex(center, center);
-            gap: 30px;
-            width: 100%;
-
-            margin-bottom: 30px;
-        }
-
-        &__label {
-            @include flex(center, center, column);
-        }
-
-        &__seat-label {
-            color: $color-text-main;
-            font-size: $font-size-7;
-            margin-top: 10px;
-        }
-
-        &__buyer-info {
-            @include flex(center, flex-start, column);
-            width: 100%;
-
-            & label {
-                margin-top: 10px;
-                margin-bottom: 5px;
-                font-size: $font-size-5;
-            }
-
-            & input {
-                width: 100%;
-                padding: (51px - 18px)/2;
-                font-size: $font-size-5;
-                @extend %input-border, %default-border-radius;
-
-                &::placeholder {
-                    font-style: italic;
-                    color: $color-placeholder;
-                    font-size: $font-size-5;
-                }
-            }
-        }
-
-        &__confirm-button {
-            margin-bottom: 30px;
-        }
+      margin-bottom: 30px;
     }
+
+    &__seat {
+      @include flex(center, center);
+
+      background-color: $color-available; //TEMPORARY
+
+      width: 26px;
+      height: 26px;
+
+      padding: 10px;
+
+      border-radius: 50%;
+
+      @extend %default-border;
+
+      cursor: pointer;
+    }
+
+    &__seat-number {
+      font-size: $font-size-8;
+    }
+
+    &__labels {
+      @include flex(center, center);
+      gap: 30px;
+      width: 100%;
+
+      margin-bottom: 30px;
+    }
+
+    &__label {
+      @include flex(center, center, column);
+    }
+
+    &__seat-label {
+      color: $color-text-main;
+      font-size: $font-size-7;
+      margin-top: 10px;
+    }
+
+    &__buyer-info {
+      @include flex(center, flex-start, column);
+      width: 100%;
+
+      & label {
+        margin-top: 10px;
+        margin-bottom: 5px;
+        font-size: $font-size-5;
+      }
+
+      & input {
+        width: 100%;
+        padding: (51px - 18px)/2;
+        font-size: $font-size-5;
+        @extend %input-border, %default-border-radius;
+
+        &::placeholder {
+          font-style: italic;
+          color: $color-placeholder;
+          font-size: $font-size-5;
+        }
+      }
+    }
+
+    &__confirm-button {
+      margin-bottom: 30px;
+    }
+  }
 }
 
 .success-screen {
-    &__title--success {
-        color: $color-text-secondary;
+  &__title--success {
+    color: $color-text-secondary;
+    font-weight: 700;
+    text-align: center;
+    width: 50%;
+  }
+
+  &.success {
+    .order-summary {
+      color: $color-text-main;
+
+      &__section-title {
+        font-size: $font-size-4;
         font-weight: 700;
-        text-align: center;
-        width: 50%;
+        margin-bottom: 10px;
+      }
+
+      &__movie-infos {
+        margin-bottom: 40px;
+      }
+
+      &__movie-info {
+        font-size: $font-size-5;
+        margin-bottom: 5px;
+      }
     }
+  }
+}
 
-    &.success {
-        .order-summary {
-            color: $color-text-main;
+// reused components
 
-            &__section-title {
-                font-size: $font-size-4;
-                font-weight: 700;
-                margin-bottom: 10px;
-            }
+.default-title {
+  font-size: $font-size-4;
+  color: $color-text-main;
+  padding: 40px 0 30px;
 
-            &__movie-infos {
-                margin-bottom: 40px;
-            }
+  align-self: center;
+}
 
-            &__movie-info {
-                font-size: $font-size-5;
-                margin-bottom: 5px;
-            }
-        }
-    }
+.button-1 {
+  background-color: $color-secondary;
+
+  align-self: center;
+
+  color: white;
+  font-size: $font-size-5;
+
+  padding: (42px - 18px)/2 40px;
+  margin-top: 55px;
+  border: none;
+
+  @extend %default-border-radius;
+}
+
+.button-2 {
+  background-color: transparent;
+
+  color: $color-back-button;
+  &:hover {
+      color: $color-secondary;
+  }
+  font-size: $font-size-1;
+  border: none;
+  vertical-align: middle;
+
+  position: fixed;
+  top: 12px;
+  left: 10px;
+
+  transition: all 0.1   s; 
+
+//   border-radius: 50%;
 }

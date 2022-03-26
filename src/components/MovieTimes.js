@@ -1,16 +1,18 @@
 import { useState, useEffect } from "react"
-import { useParams, Link } from "react-router-dom"
+import { useParams, Link, useNavigate } from "react-router-dom"
 import axios from "axios"
 
-function MovieTimes() {
+function MovieTimes({setScreenCallback}) {
 
     const [movieTimes, setMovieTimes] = useState({})
+    const navigate = useNavigate()
     const { movieID } = useParams()
     const { days } = movieTimes
 
     useEffect(() => {
         const URL_GET_MOVIETIMES = `https://mock-api.driven.com.br/api/v5/cineflex/movies/${movieID}/showtimes`
         const promise = axios.get(URL_GET_MOVIETIMES)
+        setScreenCallback(2)
         promise.then((response) => {
             const { data } = response
             setMovieTimes(data)
@@ -23,6 +25,7 @@ function MovieTimes() {
 
     return Object.keys(movieTimes).length > 0 ? (
         <main className=" container movie-times-screen movie-times">
+            {/* <button onClick={() => navigate(-1)} className="go-back-button button-2"><ion-icon name="chevron-back-circle"></ion-icon></button> */}
             <h2 className="movie-times-screen__title default-title">Selecione o horário</h2>
             <div className="movie-times__days">
                 {days.map(day => {

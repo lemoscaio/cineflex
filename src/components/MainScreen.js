@@ -3,7 +3,7 @@ import { Link } from "react-router-dom"
 import axios from "axios"
 import { useState, useEffect } from "react"
 
-function MainScreen() {
+function MainScreen({ setScreenCallback }) {
 
     const URL_GET_MOVIES = "https://mock-api.driven.com.br/api/v5/cineflex/movies"
 
@@ -11,6 +11,7 @@ function MainScreen() {
 
     useEffect(() => {
         const promise = axios.get(URL_GET_MOVIES)
+        setScreenCallback(1)
         promise.then((response) => {
             const { data } = response
             setMovies(data)
