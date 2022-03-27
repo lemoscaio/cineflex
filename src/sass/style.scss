@@ -22,8 +22,9 @@ button {
   padding: 67px 30px 0;
 }
 
-.bold {
-  font-weight: bold;
+.disabled {
+  background-color: grey !important;
+  pointer-events: none !important;
 }
 
 // modifiers
@@ -241,8 +242,8 @@ button {
     }
 
     &__buyer-info-container {
-      margin-bottom: 30px;
-
+      margin: 0 auto 30px;
+      
       &:last-of-type {
         margin-bottom: 0;
       }
@@ -337,6 +338,19 @@ button {
   align-self: center;
 }
 
+.normalize-anchor-1 {
+  display: block;
+
+  @include flex(center, center);
+
+  text-decoration: none;
+}
+
+.normalize-anchor-2 {
+  @extend .normalize-anchor-1;
+  width: 100%;
+}
+
 .button-1 {
   background-color: $color-secondary;
 
@@ -350,19 +364,6 @@ button {
   border: none;
 
   @extend %default-border-radius;
-}
-
-.normalize-anchor-1 {
-  display: block;
-
-  @include flex(center, center);
-
-  text-decoration: none;
-}
-
-.normalize-anchor-2 {
-  @extend .normalize-anchor-1;
-  width: 100%;
 }
 
 .button-2 {
@@ -381,6 +382,4 @@ button {
   left: 10px;
 
   transition: all 0.1 s;
-
-  //   border-radius: 50%;
 }

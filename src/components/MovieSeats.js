@@ -8,17 +8,14 @@ function MovieSeats({ setScreenCallback }) {
     const navigate = useNavigate()
 
     const URL_GET_MOVIE_SEATS = `https://mock-api.driven.com.br/api/v5/cineflex/showtimes/${sectionID}/seats`
-
     const URL_POST_ORDER = `https://mock-api.driven.com.br/api/v5/cineflex/seats/book-many`
-
-    const [movieSeats, setMovieSeats] = useState({})
-
     const initialOrderInfo = {
         buyers: [
         ],
         ids: []
     }
-
+    
+    const [movieSeats, setMovieSeats] = useState({})
     const [orderInfo, setOrderInfo] = useState({ ...initialOrderInfo })
 
     // TODO remove square link animation when clicking in a seat only on mobile
@@ -39,8 +36,15 @@ function MovieSeats({ setScreenCallback }) {
         return isAvailable ? "" : "unavailable-seat"
     }
     function setSelectedSeatCSS(seat) {
-
         return seat.isSelected ? "selected-seat" : ""
+    }
+    function disabledButtonCSS() {
+        let anySeatsArray = movieSeats.seats.filter(seat => {
+            if (seat.isSelected) {
+                return true
+            }
+        })
+        return anySeatsArray.length > 0 ? "" : "disabled"
     }
 
     function selectSeat(id) {
@@ -180,19 +184,22 @@ function MovieSeats({ setScreenCallback }) {
             </div>
             <form onSubmit={handleSubmit} className="movie-seats__buyer-info">
 
+                {/* TODO transform in component */}
+
                 {movieSeats.seats.map((seat, index) => {
                     if (seat.buyer) {
+                        const { id: seatID, name: seatNumber, buyer: { name, cpf } } = seat
                         return (
-                            <div key={seat.id} className="movie-seats__buyer-info-container">
-                                <p className="movie-seats__buyer-seat-container" >Informações para o assento {seat.name}</p>
+                            <div key={seatID} className="movie-seats__buyer-info-container">
+                                <p className="movie-seats__buyer-seat-container" >Informações para o assento {seatNumber}</p>
                                 <label htmlFor="buyer-name">
                                     Nome:
                                 </label>
-                                <input onChange={event => inputHandler(event, index, seat.id)} type="text" value={seat.buyer.name} name="buyer-name" id="buyer-name" placeholder="Digite o name da pessoa..." className="movie-seats__buyer-name" />
+                                <input onChange={event => inputHandler(event, index, seatID)} type="text" value={name} name="buyer-name" id="buyer-name" placeholder="Digite o name da pessoa..." className="movie-seats__buyer-name" />
                                 <label htmlFor="buyer-tax-number">
                                     CPF:
                                 </label>
-                                <input onChange={event => inputHandler(event, index, seat.id)} type="text" value={seat.buyer.cpf} name="buyer-tax-number" id="buyer-tax-number" placeholder="Digite o CPF da pessoa...(apenas números)" className="movie-seats__buyer-name" />
+                                <input onChange={event => inputHandler(event, index, seatID)} type="text" value={cpf} name="buyer-tax-number" id="buyer-tax-number" placeholder="Digite o CPF da pessoa...(apenas números)" className="movie-seats__buyer-name" />
                             </div>
                         )
                     }
@@ -201,7 +208,7 @@ function MovieSeats({ setScreenCallback }) {
 
 
 
-                <button type="submit" className="movie-seats__confirm-button button-1">Reservar assento(s)</button>
+                <button type="submit" className={`movie-seats__confirm-button button-1 ${disabledButtonCSS()}`}>Reservar assento(s)</button>
             </form>
             <footer className="movie-summary">
                 <article className="movie-summary__poster">
