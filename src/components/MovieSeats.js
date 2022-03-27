@@ -1,8 +1,8 @@
 import { useState, useEffect } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
+import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
 
-function MovieSeats({setScreenCallback}) {
+function MovieSeats({ setScreenCallback }) {
 
     const { sectionID } = useParams()
     const navigate = useNavigate()
@@ -14,11 +14,12 @@ function MovieSeats({setScreenCallback}) {
     const [movieSeats, setMovieSeats] = useState({})
 
     const initialOrderInfo = {
-        name: "",
-        cpf: ""
+        buyers: [
+        ],
+        ids: []
     }
 
-    const [orderInfo, setOrderInfo] = useState(initialOrderInfo)
+    const [orderInfo, setOrderInfo] = useState({ ...initialOrderInfo })
 
     // TODO remove square link animation when clicking in a seat only on mobile
 
@@ -34,21 +35,11 @@ function MovieSeats({setScreenCallback}) {
             }))
     }, [])
 
-    useEffect(() => {
-        if (Object.keys(movieSeats).length > 0) {
-            const selectedSeats = movieSeats.seats.filter(seat => {
-                return seat.isSelected
-            })
-            const selectedSeatsIDs = selectedSeats.map(seat => seat.id)
-            setOrderInfo({ ...orderInfo, ids: selectedSeatsIDs })
-        }
-    }, [movieSeats])
-
     function setSeatAvailabilityCSS({ isAvailable }) {
         return isAvailable ? "" : "unavailable-seat"
     }
-
     function setSelectedSeatCSS(seat) {
+
         return seat.isSelected ? "selected-seat" : ""
     }
 
@@ -57,24 +48,87 @@ function MovieSeats({setScreenCallback}) {
             if (id === seat.id && !seat.isAvailable) {
                 alert("Este assento não está disponível")
             }
-            return (id === seat.id && seat.isAvailable) ? { ...seat, isSelected: !seat.isSelected } : seat
+            else if (id === seat.id && seat.isAvailable && !seat.isSelected) {
+                return { ...seat, isSelected: true, buyer: {} }
+            }
+            else if (id === seat.id && seat.isAvailable && seat.isSelected) {
+                if (seat.buyer.name || seat.buyer.cpf) {
+                    const result = window.confirm("Existem dados já preenchidos. Realmente gostaria de tirar a seleção do assento?");
+                    if (result) {
+                        delete seat.buyer
+                        return { ...seat, isSelected: false }
+                    } else {
+                        return { ...seat, isSelected: true }
+                    }
+                } else {
+                    delete seat.buyer
+                    return { ...seat, isSelected: false }
+                }
+            } else {
+                return seat
+            }
         })
         movieSeats.seats = newSeats
         setMovieSeats({ ...movieSeats })
     }
 
-    function inputHandler(event) {
+    useEffect(() => {
+        if (Object.keys(movieSeats).length > 0) {
+            const selectedSeats = movieSeats.seats.filter(seat => {
+                return seat.isSelected
+            })
+
+            const selectedSeatsIDs = selectedSeats.map(seat => seat.id)
+            const selectedSeatsNumbers = selectedSeats.map(seat => seat.name)
+
+            const buyers = selectedSeats.map(seat => {
+                return {
+                    seatID: seat.id,
+                    seatNumber: seat.name,
+                    name: seat.buyer["name"],
+                    cpf: seat.buyer["cpf"],
+                }
+            })
+
+
+            // TODO when setting buyers, it resets the name and cpf
+            orderInfo.buyers = buyers
+
+            setOrderInfo({ ...orderInfo, ids: selectedSeatsIDs, numbers: selectedSeatsNumbers })
+        }
+    }, [movieSeats])
+
+    function inputHandler(event, index, seatID) {
         if (event.target.name === "buyer-name") {
-            setOrderInfo({ ...orderInfo, name: event.target.value })
+            movieSeats.seats.forEach(seat => {
+                if (seat.id === seatID) {
+                    seat.buyer.name = event.target.value
+                }
+            })
+            setMovieSeats({ ...movieSeats })
         }
         if (event.target.name === "buyer-tax-number") {
-            setOrderInfo({ ...orderInfo, cpf: event.target.value })
+            movieSeats.seats.forEach(seat => {
+                if (seat.id === seatID) {
+                    seat.buyer.cpf = event.target.value
+                }
+            })
+            setMovieSeats({ ...movieSeats })
         }
     }
 
     function handleSubmit(event) {
         event.preventDefault()
-        const promise = axios.post(URL_POST_ORDER, orderInfo)
+
+        const postObject = {
+            ids: orderInfo.ids, buyers: orderInfo.buyers.map(buyer => {
+                const tempBuyer = { ...buyer }
+                delete tempBuyer.seatNumber
+                return tempBuyer
+            })
+        }
+
+        const promise = axios.post(URL_POST_ORDER, postObject)
         promise.then((response) => {
             navigate("/sucesso", { state: { orderInfo, movieSeats } })
             console.log(response)
@@ -84,7 +138,6 @@ function MovieSeats({setScreenCallback}) {
 
     return Object.keys(movieSeats).length > 0 ? (
         <main className=" container movie-seats-screen movie-seats">
-            {/* <button onClick={() => navigate(-1)} className="go-back-button button-2"><ion-icon name="chevron-back-circle"></ion-icon></button> */}
             <h2 className="movie-seats-screen__title default-title">Selecione o(s) assento(s)</h2>
             <div className="movie-seats__seats-options">
                 {movieSeats.seats.map(seat => {
@@ -126,14 +179,28 @@ function MovieSeats({setScreenCallback}) {
                 </div>
             </div>
             <form onSubmit={handleSubmit} className="movie-seats__buyer-info">
-                <label htmlFor="buyer-name">
-                    Nome do comprador:
-                </label>
-                <input onChange={event => inputHandler(event)} type="text" value={orderInfo.name} name="buyer-name" placeholder="Digite seu nome..." className="movie-seats__buyer-name" />
-                <label htmlFor="buyer-tax-number">
-                    CPF do comprador:
-                </label>
-                <input onChange={event => inputHandler(event)} type="text" value={orderInfo.cpf} name="buyer-tax-number" placeholder="Digite seu CPF (sem pontuação)..." className="movie-seats__buyer-name" />
+
+                {movieSeats.seats.map((seat, index) => {
+                    if (seat.buyer) {
+                        return (
+                            <div key={seat.id} className="movie-seats__buyer-info-container">
+                                <p className="movie-seats__buyer-seat-container" >Informações para o assento {seat.name}</p>
+                                <label htmlFor="buyer-name">
+                                    Nome:
+                                </label>
+                                <input onChange={event => inputHandler(event, index, seat.id)} type="text" value={seat.buyer.name} name="buyer-name" id="buyer-name" placeholder="Digite o name da pessoa..." className="movie-seats__buyer-name" />
+                                <label htmlFor="buyer-tax-number">
+                                    CPF:
+                                </label>
+                                <input onChange={event => inputHandler(event, index, seat.id)} type="text" value={seat.buyer.cpf} name="buyer-tax-number" id="buyer-tax-number" placeholder="Digite o CPF da pessoa...(apenas números)" className="movie-seats__buyer-name" />
+                            </div>
+                        )
+                    }
+                })}
+
+
+
+
                 <button type="submit" className="movie-seats__confirm-button button-1">Reservar assento(s)</button>
             </form>
             <footer className="movie-summary">

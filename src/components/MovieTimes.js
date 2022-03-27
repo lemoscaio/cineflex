@@ -1,11 +1,10 @@
 import { useState, useEffect } from "react"
-import { useParams, Link, useNavigate } from "react-router-dom"
+import { useParams, Link } from "react-router-dom"
 import axios from "axios"
 
-function MovieTimes({setScreenCallback}) {
+function MovieTimes({ setScreenCallback }) {
 
     const [movieTimes, setMovieTimes] = useState({})
-    const navigate = useNavigate()
     const { movieID } = useParams()
     const { days } = movieTimes
 
@@ -22,10 +21,8 @@ function MovieTimes({setScreenCallback}) {
             })
     }, [])
 
-
     return Object.keys(movieTimes).length > 0 ? (
         <main className=" container movie-times-screen movie-times">
-            {/* <button onClick={() => navigate(-1)} className="go-back-button button-2"><ion-icon name="chevron-back-circle"></ion-icon></button> */}
             <h2 className="movie-times-screen__title default-title">Selecione o horário</h2>
             <div className="movie-times__days">
                 {days.map(day => {
@@ -37,11 +34,11 @@ function MovieTimes({setScreenCallback}) {
                                 {showTimes.map((time) => {
                                     const { id, name } = time
                                     return (
-                                        <button key={id} className="movie-times__hour">
-                                            <Link to={`/assentos/${id}`}>
+                                        <Link key={id} className="normalize-anchor-1" to={`/assentos/${id}`}>
+                                            <button className="movie-times__hour">
                                                 {name}
-                                            </Link>
-                                        </button>
+                                            </button>
+                                        </Link>
                                     )
                                 })}
                             </div>

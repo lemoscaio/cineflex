@@ -8,11 +8,11 @@
 
 body,
 button {
-    font-family: $font-main;
+  font-family: $font-main;
 }
 
 button {
-    cursor: pointer;
+  cursor: pointer;
 }
 
 .container {
@@ -20,6 +20,10 @@ button {
 
   margin-bottom: 50px;
   padding: 67px 30px 0;
+}
+
+.bold {
+  font-weight: bold;
 }
 
 // modifiers
@@ -78,6 +82,19 @@ button {
     @extend %default-shadow;
 
     cursor: pointer;
+
+    transition: all 0.3s;
+
+    &:hover {
+      transform: scale(1.03);
+      box-shadow: 0px 4px 6px 3px rgba(0, 0, 0, 0.1);
+    }
+
+    &:active {
+      transition: all 0.05s;
+      transform: scale(1.01);
+      box-shadow: 0px 1px 2px 2px rgb(0 0 0 / 10%);
+    }
   }
 
   &__movie-image {
@@ -168,6 +185,7 @@ button {
 }
 
 .movie-seats-screen {
+
   .movie-seats {
     @include flex(center, center);
 
@@ -222,6 +240,29 @@ button {
       margin-top: 10px;
     }
 
+    &__buyer-info-container {
+      margin-bottom: 30px;
+
+      &:last-of-type {
+        margin-bottom: 0;
+      }
+    }
+
+    &__buyer-seat-container {
+      @include flex(center, center);
+      gap: 10px;
+      width: 100%;
+      
+      // background: linear-gradient(to bottom, $color-main 75%, transparent 100%);
+      background: $color-main;
+      
+      margin-bottom: 10px;
+      padding: 15px 0 15px;
+
+      color: $color-text-main;
+      border-radius: 6px 6px 0 0;
+    }
+
     &__buyer-info {
       @include flex(center, flex-start, column);
       width: 100%;
@@ -230,6 +271,8 @@ button {
         margin-top: 10px;
         margin-bottom: 5px;
         font-size: $font-size-5;
+
+        
       }
 
       & input {
@@ -237,6 +280,8 @@ button {
         padding: (51px - 18px)/2;
         font-size: $font-size-5;
         @extend %input-border, %default-border-radius;
+
+        margin-bottom: 15px;
 
         &::placeholder {
           font-style: italic;
@@ -301,10 +346,23 @@ button {
   font-size: $font-size-5;
 
   padding: (42px - 18px)/2 40px;
-  margin-top: 55px;
+  margin-top: 25px;
   border: none;
 
   @extend %default-border-radius;
+}
+
+.normalize-anchor-1 {
+  display: block;
+
+  @include flex(center, center);
+
+  text-decoration: none;
+}
+
+.normalize-anchor-2 {
+  @extend .normalize-anchor-1;
+  width: 100%;
 }
 
 .button-2 {
@@ -312,7 +370,7 @@ button {
 
   color: $color-back-button;
   &:hover {
-      color: $color-secondary;
+    color: $color-secondary;
   }
   font-size: $font-size-1;
   border: none;
@@ -322,7 +380,7 @@ button {
   top: 12px;
   left: 10px;
 
-  transition: all 0.1   s; 
+  transition: all 0.1 s;
 
-//   border-radius: 50%;
+  //   border-radius: 50%;
 }
