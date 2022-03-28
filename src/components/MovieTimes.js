@@ -2,6 +2,8 @@ import { useState, useEffect } from "react"
 import { useParams, Link } from "react-router-dom"
 import axios from "axios"
 
+import MovieFooter from "./MovieFooter.js"
+
 function MovieTimes({ setScreenCallback }) {
 
     const [movieTimes, setMovieTimes] = useState({})
@@ -46,17 +48,13 @@ function MovieTimes({ setScreenCallback }) {
                     )
                 })}
             </div>
-            <footer className="movie-summary">
-                <>
-                    <article className="movie-summary__poster">
-                        <img className="movie-summary__poster-image" src={movieTimes.posterURL} alt={movieTimes.title} />
-                    </article>
-                    <div className="movie-summary__info">
-                        <p className="movie-summary__name">{movieTimes.title}
-                        </p>
-                    </div>
-                </>
-            </footer>
+
+            <MovieFooter
+                src={movieTimes.posterURL} 
+                alt={movieTimes.title}
+                title={movieTimes.title}
+            />
+
         </main>
     ) : (<></>)
 }

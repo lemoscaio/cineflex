@@ -1,7 +1,9 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
+
 import MaskedInputCPF from "./MaskedInputCPF.js"
+import MovieFooter from "./MovieFooter.js"
 
 function MovieSeats({ setScreenCallback }) {
 
@@ -18,8 +20,6 @@ function MovieSeats({ setScreenCallback }) {
 
     const [movieSeats, setMovieSeats] = useState({})
     const [orderInfo, setOrderInfo] = useState({ ...initialOrderInfo })
-
-    // TODO remove square link animation when clicking in a seat only on mobile
 
     useEffect(() => {
         const promise = axios.get(URL_GET_MOVIE_SEATS)
@@ -204,14 +204,14 @@ function MovieSeats({ setScreenCallback }) {
                                     <label htmlFor="buyer-name">
                                         Nome:
                                     </label>
-                                    <input 
-                                    onChange={event => inputHandler(event, index, seatID)} type="text" 
-                                    value={name} 
-                                    name="buyer-name" 
-                                    id="buyer-name" 
-                                    placeholder="Digite o nome da pessoa..." className="movie-seats__buyer-name" 
-                                    inputmode="numeric"
-                                    required />
+                                    <input
+                                        onChange={event => inputHandler(event, index, seatID)} type="text"
+                                        value={name}
+                                        name="buyer-name"
+                                        id="buyer-name"
+                                        placeholder="Digite o nome..." className="movie-seats__buyer-name"
+                                        inputMode="latin-name"
+                                        required />
                                     <label htmlFor="buyer-tax-number">
                                         CPF:
                                     </label>
@@ -225,21 +225,14 @@ function MovieSeats({ setScreenCallback }) {
                     }
                 })}
 
-
-
-
                 <button type="submit" className={`movie-seats__confirm-button button-1 ${disabledButtonCSS()}`}>Reservar assento(s)</button>
             </form>
-            <footer className="movie-summary">
-                <article className="movie-summary__poster">
-                    <img className="movie-summary__poster-image" src={movieSeats.movie.posterURL} alt={movieSeats.movie.title} />
-                </article>
-                <div className="movie-summary__info">
-                    <p className="movie-summary__name">{movieSeats.movie.title}
-                    </p>
-                    <p className="movie-summary__time">{movieSeats.day.weekday} - {movieSeats.name}</p>
-                </div>
-            </footer>
+            <MovieFooter 
+            src={movieSeats.movie.posterURL} 
+            alt={movieSeats.movie.title}
+            title={movieSeats.movie.title} 
+            weekday={movieSeats.day.weekday} 
+            name={movieSeats.name} />
         </main >
     ) : <></>
 }

@@ -10,8 +10,6 @@ function Success({ setScreenCallback }) {
         setScreenCallback(4)
     })
 
-    // TODO correct seat number
-
     function changeDisplayCPF(cpf) {
         let displayCPF = cpf.split("")
         displayCPF.splice(9, 0, "-").splice(6, 0, ".").splice(3, 0, ".")

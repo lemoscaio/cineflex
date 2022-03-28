@@ -6,6 +6,10 @@
 
 // general rules
 
+* {
+  -webkit-tap-highlight-color: transparent;
+}
+
 body,
 button {
   font-family: $font-main;
@@ -162,12 +166,24 @@ button {
   .movie-times {
     @include flex(flex-start, flex-start, column);
 
+    @include desktop-only() {
+      @include flex(center,center);
+    }
+
     &__days {
       margin-bottom: 20px;
+
+      @include desktop-only() {
+        width: 100%;
+      }
     }
 
     &__day-times {
       margin-bottom: 20px;
+
+      @include desktop-only() {
+        @include flex(center,center, column);
+      }
     }
 
     &__day {
@@ -188,12 +204,24 @@ button {
       @extend %default-border-radius;
 
       user-select: none;
+
+      transition: all 0.2s;
+
+      &:hover {
+        transform: scale(1.03);
+        box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.1);
+      }
+
+      &:active {
+        transition: all 0.05s;
+        transform: scale(1.01);
+        box-shadow: 0px 1px 2px 2px rgb(0 0 0 / 10%);
+      }
     }
   }
 }
 
 .movie-seats-screen {
-
   .movie-seats {
     @include flex(center, center);
 
@@ -254,7 +282,7 @@ button {
       @extend %default-border-radius;
 
       box-shadow: 0px 4px 10px 2px rgba(0, 0, 0, 0.1);
-      
+
       &:last-of-type {
         margin-bottom: 0;
       }
@@ -268,10 +296,10 @@ button {
       @include flex(center, center);
       gap: 10px;
       width: 100%;
-      
+
       // background: linear-gradient(to bottom, $color-main 75%, transparent 100%);
       background: $color-main;
-      
+
       margin-bottom: 10px;
       padding: 15px 0 15px;
 
@@ -290,8 +318,6 @@ button {
         margin-top: 10px;
         margin-bottom: 5px;
         font-size: $font-size-5;
-
-        
       }
 
       & input {
