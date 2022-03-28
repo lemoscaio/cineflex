@@ -1,6 +1,7 @@
 import { useState, useEffect } from "react"
 import { useParams, useNavigate } from "react-router-dom"
 import axios from "axios"
+import MaskedInputCPF from "./MaskedInputCPF.js"
 
 function MovieSeats({ setScreenCallback }) {
 
@@ -14,7 +15,7 @@ function MovieSeats({ setScreenCallback }) {
         ],
         ids: []
     }
-    
+
     const [movieSeats, setMovieSeats] = useState({})
     const [orderInfo, setOrderInfo] = useState({ ...initialOrderInfo })
 
@@ -86,16 +87,18 @@ function MovieSeats({ setScreenCallback }) {
             const selectedSeatsNumbers = selectedSeats.map(seat => seat.name)
 
             const buyers = selectedSeats.map(seat => {
+                let treatedCPF;
+                if (seat.buyer.cpf) {
+                    treatedCPF = seat.buyer.cpf.replace(/[^0-9]/g, "")
+                }
                 return {
                     seatID: seat.id,
                     seatNumber: seat.name,
                     name: seat.buyer["name"],
-                    cpf: seat.buyer["cpf"],
+                    cpf: treatedCPF,
                 }
             })
 
-
-            // TODO when setting buyers, it resets the name and cpf
             orderInfo.buyers = buyers
 
             setOrderInfo({ ...orderInfo, ids: selectedSeatsIDs, numbers: selectedSeatsNumbers })
@@ -123,6 +126,10 @@ function MovieSeats({ setScreenCallback }) {
 
     function handleSubmit(event) {
         event.preventDefault()
+
+
+
+
 
         const postObject = {
             ids: orderInfo.ids, buyers: orderInfo.buyers.map(buyer => {
@@ -191,15 +198,20 @@ function MovieSeats({ setScreenCallback }) {
                         const { id: seatID, name: seatNumber, buyer: { name, cpf } } = seat
                         return (
                             <div key={seatID} className="movie-seats__buyer-info-container">
-                                <p className="movie-seats__buyer-seat-container" >Informações para o assento {seatNumber}</p>
-                                <label htmlFor="buyer-name">
-                                    Nome:
-                                </label>
-                                <input onChange={event => inputHandler(event, index, seatID)} type="text" value={name} name="buyer-name" id="buyer-name" placeholder="Digite o name da pessoa..." className="movie-seats__buyer-name" />
-                                <label htmlFor="buyer-tax-number">
-                                    CPF:
-                                </label>
-                                <input onChange={event => inputHandler(event, index, seatID)} type="text" value={cpf} name="buyer-tax-number" id="buyer-tax-number" placeholder="Digite o CPF da pessoa...(apenas números)" className="movie-seats__buyer-name" />
+                                <p className="movie-seats__buyer-seat-title">Informações para o assento {seatNumber}</p>
+                                <div className="movie-seats__buyer-seat-container" >
+                                    <label htmlFor="buyer-name">
+                                        Nome:
+                                    </label>
+                                    <input onChange={event => inputHandler(event, index, seatID)} type="text" value={name} name="buyer-name" id="buyer-name" placeholder="Digite o name da pessoa..." className="movie-seats__buyer-name" required />
+                                    <label htmlFor="buyer-tax-number">
+                                        CPF:
+                                    </label>
+                                    <MaskedInputCPF
+                                        onChange={event => inputHandler(event, index, seatID)}
+                                        value={cpf}
+                                    />
+                                </div>
                             </div>
                         )
                     }

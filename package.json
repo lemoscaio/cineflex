@@ -7,6 +7,7 @@
     "ionicons": "^6.0.1",
     "react": "^17.0.2",
     "react-dom": "^17.0.2",
+    "react-input-mask": "^2.0.4",
     "react-router-dom": "^6.2.2",
     "react-scripts": "^4.0.3",
     "sass": "^1.49.9"
