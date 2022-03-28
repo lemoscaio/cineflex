@@ -457,7 +457,7 @@ button {
     top: 30%;
     left: 50%;
     transform: translate(-50%, -50%);
-    width: 100%;
+    width: 90%;
     max-width: 450px;
     padding: 20px;
     background-color: white;
@@ -476,12 +476,6 @@ button {
     font-size: $font-size-5;
     margin-bottom: 10px;
     text-align: center;
-  }
-
-  &__buttons {
-    @include flex(center, center);
-    gap: 10px;
-    width: 100%;
   }
 
   &__button {
