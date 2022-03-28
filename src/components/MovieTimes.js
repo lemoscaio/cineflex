@@ -3,6 +3,7 @@ import { useParams, Link } from "react-router-dom"
 import axios from "axios"
 
 import MovieFooter from "./MovieFooter.js"
+import Loading from "./Loading.js"
 
 function MovieTimes({ setScreenCallback }) {
 
@@ -56,7 +57,7 @@ function MovieTimes({ setScreenCallback }) {
             />
 
         </main>
-    ) : (<></>)
+    ) : <Loading />
 }
 
 export default MovieTimes

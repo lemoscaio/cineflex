@@ -2,6 +2,7 @@ import { Link } from "react-router-dom"
 
 import axios from "axios"
 import { useState, useEffect } from "react"
+import Loading from "./Loading.js"
 
 function MainScreen({ setScreenCallback }) {
 
@@ -21,7 +22,7 @@ function MainScreen({ setScreenCallback }) {
             })
     }, [])
 
-    return (
+    return movies.length > 0 ? (
         <main className="main-screen container">
             <h2 className="main-screen__title default-title">Selecione o filme</h2>
             <div className="main-screen__movies">
@@ -36,7 +37,7 @@ function MainScreen({ setScreenCallback }) {
                 })}
             </ div>
         </main >
-    )
+    ) : <Loading />
 }
 
 export default MainScreen

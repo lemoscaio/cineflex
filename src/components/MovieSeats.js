@@ -4,6 +4,8 @@ import axios from "axios"
 
 import MaskedInputCPF from "./MaskedInputCPF.js"
 import MovieFooter from "./MovieFooter.js"
+import Loading from "./Loading.js"
+import Modal from "./Modal.js"
 
 function MovieSeats({ setScreenCallback }) {
 
@@ -18,6 +20,7 @@ function MovieSeats({ setScreenCallback }) {
         ids: []
     }
 
+    const [modalVisibility, setModalVisibility] = useState(false)
     const [movieSeats, setMovieSeats] = useState({})
     const [orderInfo, setOrderInfo] = useState({ ...initialOrderInfo })
 
@@ -32,6 +35,7 @@ function MovieSeats({ setScreenCallback }) {
                 console.log(error)
             }))
     }, [])
+
 
     function setSeatAvailabilityCSS({ isAvailable }) {
         return isAvailable ? "" : "unavailable-seat"
@@ -48,10 +52,12 @@ function MovieSeats({ setScreenCallback }) {
         return anySeatsArray.length > 0 ? "" : "disabled"
     }
 
+
     function selectSeat(id) {
         const newSeats = movieSeats.seats.map(seat => {
             if (id === seat.id && !seat.isAvailable) {
-                alert("Este assento não está disponível")
+                setModalVisibility(true)
+                // alert("Este assento não está disponível")
                 return seat
             }
             else if (id === seat.id && seat.isAvailable && !seat.isSelected) {
@@ -106,6 +112,7 @@ function MovieSeats({ setScreenCallback }) {
         }
     }, [movieSeats])
 
+
     function inputHandler(event, index, seatID) {
         if (event.target.name === "buyer-name") {
             movieSeats.seats.forEach(seat => {
@@ -146,6 +153,10 @@ function MovieSeats({ setScreenCallback }) {
 
     return Object.keys(movieSeats).length > 0 ? (
         <main className=" container movie-seats-screen movie-seats">
+            <Modal
+                setModalVisibility={(value) => setModalVisibility(value)}
+                modalVisibility={modalVisibility}
+            />
             <h2 className="movie-seats-screen__title default-title">Selecione o(s) assento(s)</h2>
             <div className="movie-seats__seats-options">
                 {movieSeats.seats.map(seat => {
@@ -223,14 +234,14 @@ function MovieSeats({ setScreenCallback }) {
 
                 <button type="submit" className={`movie-seats__confirm-button button-1 ${disabledButtonCSS()}`}>Reservar assento(s)</button>
             </form>
-            <MovieFooter 
-            src={movieSeats.movie.posterURL} 
-            alt={movieSeats.movie.title}
-            title={movieSeats.movie.title} 
-            weekday={movieSeats.day.weekday} 
-            name={movieSeats.name} />
+            <MovieFooter
+                src={movieSeats.movie.posterURL}
+                alt={movieSeats.movie.title}
+                title={movieSeats.movie.title}
+                weekday={movieSeats.day.weekday}
+                name={movieSeats.name} />
         </main >
-    ) : <></>
+    ) : <Loading />
 }
 
 export default MovieSeats
