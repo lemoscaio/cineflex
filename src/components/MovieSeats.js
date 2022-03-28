@@ -128,10 +128,6 @@ function MovieSeats({ setScreenCallback }) {
     function handleSubmit(event) {
         event.preventDefault()
 
-
-
-
-
         const postObject = {
             ids: orderInfo.ids, buyers: orderInfo.buyers.map(buyer => {
                 const tempBuyer = { ...buyer }

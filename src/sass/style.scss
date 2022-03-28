@@ -31,6 +31,69 @@ button {
   pointer-events: none !important;
 }
 
+// reused components
+
+.default-title {
+  font-size: $font-size-4;
+  color: $color-text-main;
+  padding: 40px 0 30px;
+
+  align-self: center;
+
+  user-select: none;
+}
+
+.normalize-anchor-1 {
+  display: block;
+
+  @include flex(center, center);
+
+  text-decoration: none;
+}
+
+.normalize-anchor-2 {
+  @extend .normalize-anchor-1;
+  width: 100%;
+}
+
+.button-1 {
+  background-color: $color-secondary;
+
+  align-self: center;
+
+  color: white;
+  font-size: $font-size-5;
+
+  padding: (42px - 18px)/2 40px;
+  margin-top: 25px;
+  border: none;
+
+  @extend %default-border-radius;
+  @include button-hover;
+}
+
+.button-2 {
+  background-color: transparent;
+
+  color: $color-back-button;
+  &:hover {
+    color: $color-secondary;
+  }
+  &:active{
+    color: #da7a36;
+  }
+  font-size: $font-size-1;
+  border: none;
+  vertical-align: middle;
+
+  position: fixed;
+  top: 12px;
+  left: 10px;
+
+  transition: all 0.1 s;
+}
+
+
 // modifiers
 
 .selected-seat {
@@ -207,16 +270,7 @@ button {
 
       transition: all 0.2s;
 
-      &:hover {
-        transform: scale(1.03);
-        box-shadow: 0px 2px 3px 1px rgba(0, 0, 0, 0.1);
-      }
-
-      &:active {
-        transition: all 0.05s;
-        transform: scale(1.01);
-        box-shadow: 0px 1px 2px 2px rgb(0 0 0 / 10%);
-      }
+      @include button-hover;
     }
   }
 }
@@ -370,62 +424,4 @@ button {
       }
     }
   }
-}
-
-// reused components
-
-.default-title {
-  font-size: $font-size-4;
-  color: $color-text-main;
-  padding: 40px 0 30px;
-
-  align-self: center;
-
-  user-select: none;
-}
-
-.normalize-anchor-1 {
-  display: block;
-
-  @include flex(center, center);
-
-  text-decoration: none;
-}
-
-.normalize-anchor-2 {
-  @extend .normalize-anchor-1;
-  width: 100%;
-}
-
-.button-1 {
-  background-color: $color-secondary;
-
-  align-self: center;
-
-  color: white;
-  font-size: $font-size-5;
-
-  padding: (42px - 18px)/2 40px;
-  margin-top: 25px;
-  border: none;
-
-  @extend %default-border-radius;
-}
-
-.button-2 {
-  background-color: transparent;
-
-  color: $color-back-button;
-  &:hover {
-    color: $color-secondary;
-  }
-  font-size: $font-size-1;
-  border: none;
-  vertical-align: middle;
-
-  position: fixed;
-  top: 12px;
-  left: 10px;
-
-  transition: all 0.1 s;
 }
