@@ -52,6 +52,7 @@ function MovieSeats({ setScreenCallback }) {
         const newSeats = movieSeats.seats.map(seat => {
             if (id === seat.id && !seat.isAvailable) {
                 alert("Este assento não está disponível")
+                return seat
             }
             else if (id === seat.id && seat.isAvailable && !seat.isSelected) {
                 return { ...seat, isSelected: true, buyer: {} }
@@ -203,7 +204,14 @@ function MovieSeats({ setScreenCallback }) {
                                     <label htmlFor="buyer-name">
                                         Nome:
                                     </label>
-                                    <input onChange={event => inputHandler(event, index, seatID)} type="text" value={name} name="buyer-name" id="buyer-name" placeholder="Digite o name da pessoa..." className="movie-seats__buyer-name" required />
+                                    <input 
+                                    onChange={event => inputHandler(event, index, seatID)} type="text" 
+                                    value={name} 
+                                    name="buyer-name" 
+                                    id="buyer-name" 
+                                    placeholder="Digite o nome da pessoa..." className="movie-seats__buyer-name" 
+                                    inputmode="numeric"
+                                    required />
                                     <label htmlFor="buyer-tax-number">
                                         CPF:
                                     </label>

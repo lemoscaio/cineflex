@@ -53,6 +53,9 @@ button {
   position: fixed;
   left: 0;
   right: 0;
+  z-index: 1;
+
+  user-select: none;
 
   &__title {
     font-size: $font-size-2;
@@ -73,6 +76,8 @@ button {
     gap: 30px;
 
     width: 100%;
+
+    user-select: none;
   }
 
   &__movie {
@@ -181,6 +186,8 @@ button {
       padding: (43px - 18px)/2 15px;
       color: white;
       @extend %default-border-radius;
+
+      user-select: none;
     }
   }
 }
@@ -347,6 +354,8 @@ button {
   padding: 40px 0 30px;
 
   align-self: center;
+
+  user-select: none;
 }
 
 .normalize-anchor-1 {
