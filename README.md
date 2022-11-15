@@ -1,12 +1,11 @@
 <div align="center"><img style = "width:100%;"src="https://i.imgur.com/P83Ut55.png"></img></div>
 <hr>
-<h2 align=center>Cineflex</h2>
-<h3 align=center>Web development Project</h3>
-<hr>
-<h4 align=center>A movie tickets store made with React.JS. This was the 9ᵗʰ project of the Driven full stack web development bootcamp.</h4>
+<h1 align=center>Cineflex</h1>
+<h3 align=center>A movie tickets store website made with React.JS.</h3>
+<h4 align=center>It was the 9ᵗʰ project of the Driven full stack web development bootcamp.</h4>
 <br>
 <div align=center style="display:flex; justify-content: center; gap:5%">
-    <img style = "width:100%;"src="https://i.imgur.com/2gpwrCV.jpg">
+    <img style = "width:70%;"src="https://i.imgur.com/2gpwrCV.jpg">
 </div>
 <br><hr>
 
