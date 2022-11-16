@@ -1,5 +1,7 @@
 <div align="center"><img style = "width:100%;"src="https://i.imgur.com/P83Ut55.png"></img></div>
-<hr>
+
+<br>
+
 <h1 align=center>Cineflex</h1>
 <h3 align=center>A movie tickets store website made with React.JS.</h3>
 <h4 align=center>It was the 9ᵗʰ project of the Driven full stack web development bootcamp.</h4>
